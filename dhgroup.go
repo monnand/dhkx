@@ -57,10 +57,23 @@ func GetGroup(groupID int) (group *DHGroup, err error) {
 }
 
 func (self *DHGroup) ComputeKey(pubkey *DHKey, privkey *DHKey) (key *DHKey, err error) {
-	if pubkey.y == nil || pubkey.y.Sign() <= 0 || pubkey.y.Cmp(self.p) >= 0  || privkey.x == nil {
+	if pubkey.y == nil {
+		err = errors.New("DH: invalid public key")
+		return
+	}
+	if pubkey.y.Sign() <= 0 || pubkey.y.Cmp(self.p) >= 0 {
 		err = errors.New("DH parameter out of bounds")
 		return
 	}
+	if privkey.x == nil {
+		err = errors.New("DH: invalid private key")
+		return
+	}
+	if self.p == nil {
+		err = errors.New("DH: invalid group")
+		return
+	}
+
 	k := new(big.Int).Exp(pubkey.y, privkey.x, self.p)
 	key = new(DHKey)
 	key.y = k

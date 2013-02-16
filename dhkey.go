@@ -16,6 +16,13 @@ func (self *DHKey) Bytes() []byte {
 	return self.y.Bytes()
 }
 
+func (self *DHKey) String() string {
+	if self.y == nil {
+		return ""
+	}
+	return self.y.String()
+}
+
 func (self *DHKey) IsPrivateKey() bool {
 	return self.x != nil
 }
