@@ -26,9 +26,9 @@ func (self *dhTestCase) testOne(xa, ya, yb *big.Int, oppo bool) error {
 	priv.y = new(big.Int).Exp(group.g, priv.x, group.p)
 	if ya.Cmp(priv.y) != 0 {
 		if oppo {
-			return fmt.Errorf("yb != g ^ xb mod p)")
+			return fmt.Errorf("%v = yb != g ^ xb mod p = %v", ya, priv.y)
 		}
-		return fmt.Errorf("ya != g ^ xa mod p)")
+		return fmt.Errorf("%v = ya != g ^ xa mod p = %v", ya, priv.y)
 	}
 
 	pub := new(DHKey)
@@ -40,9 +40,9 @@ func (self *dhTestCase) testOne(xa, ya, yb *big.Int, oppo bool) error {
 	}
 	if self.zz.Cmp(z.y) != 0 {
 		if oppo {
-			return fmt.Errorf("zz != ya ^ xb mod p")
+			return fmt.Errorf("%v = zz != ya ^ xb mod p = %v", self.zz, z.y)
 		}
-		return fmt.Errorf("zz != yb ^ xa mod p")
+		return fmt.Errorf("%v = zz != yb ^ xa mod p = %v", self.zz, z.y)
 	}
 	return nil
 }
