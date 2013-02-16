@@ -32,4 +32,3 @@ func NewPublicKey(s []byte) *DHKey {
 	key.y = new(big.Int).SetBytes(s)
 	return key
 }
-
