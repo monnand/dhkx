@@ -1,4 +1,4 @@
-package dhkeyex
+package dhkx
 
 import (
 	"math/big"
@@ -12,17 +12,20 @@ type DHGroup struct {
 	g *big.Int
 }
 
-func (self *DHGroup) GenerateKey(randReader io.Reader) (key *DHKey, err error) {
+func (self *DHGroup) GeneratePrivateKey(randReader io.Reader) (key *DHKey, err error) {
 	if randReader == nil {
 		randReader = rand.Reader
 	}
-	var y *big.Int
-	y, err = rand.Int(randReader, self.p)
+	var x *big.Int
+	x, err = rand.Int(randReader, self.p)
 	if err != nil {
 		return
 	}
 	key = new(DHKey)
-	key.k = y
+	key.x = x
+
+	// y = g ^ x mod p
+	key.y = new(big.Int).Exp(self.g, x, self.p)
 	return
 }
 
@@ -54,13 +57,13 @@ func GetGroup(groupID int) (group *DHGroup, err error) {
 }
 
 func (self *DHGroup) ComputeKey(pubkey *DHKey, privkey *DHKey) (key *DHKey, err error) {
-	if pubkey.k.Sign() <= 0 || pubkey.k.Cmp(self.p) >= 0 {
+	if pubkey.y == nil || pubkey.y.Sign() <= 0 || pubkey.y.Cmp(self.p) >= 0  || privkey.x == nil {
 		err = errors.New("DH parameter out of bounds")
 		return
 	}
-	k := new(big.Int).Exp(pubkey.k, privkey.k, self.p)
+	k := new(big.Int).Exp(pubkey.y, privkey.x, self.p)
 	key = new(DHKey)
-	key.k = k
+	key.y = k
 	return
 }
 

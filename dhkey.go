@@ -1,20 +1,28 @@
-package dhkeyex
+package dhkx
 
 import (
 	"math/big"
 )
 
 type DHKey struct {
-	k *big.Int
+	x *big.Int
+	y *big.Int
 }
 
 func (self *DHKey) Bytes() []byte {
-	return self.k.Bytes()
+	if self.y == nil {
+		return nil
+	}
+	return self.y.Bytes()
 }
 
-func NewKey(s []byte) *DHKey {
+func (self *DHKey) IsPrivateKey() bool {
+	return self.x != nil
+}
+
+func NewPublicKey(s []byte) *DHKey {
 	key := new(DHKey)
-	key.k = new(big.Int).SetBytes(s)
+	key.y = new(big.Int).SetBytes(s)
 	return key
 }
 
