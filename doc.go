@@ -20,9 +20,6 @@
 // The algorithm is used to establish a shared key between two communication peers
 // without sharing secrete information.
 //
-// There are two structs in this package: DHGroup and DHKey.
-// Anything returned from Bytes() method in DHKey is public, i.e. could be shared with
-// any party.
 //
 // Typical process:
 //
@@ -60,7 +57,7 @@
 // 	// Get the key in the form of []byte
 // 	key := k.Bytes()
 //
-/// Similarly, here is the code on Bob's side:
+// Similarly, here is the code on Bob's side:
 //
 //	// Get a group. Use the default one would be enough.
 // 	g, _ := GetGroup(0)
