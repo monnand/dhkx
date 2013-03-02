@@ -43,6 +43,7 @@ func (self *DHGroup) GeneratePrivateKey(randReader io.Reader) (key *DHKey, err e
 
 	// y = g ^ x mod p
 	key.y = new(big.Int).Exp(self.g, x, self.p)
+	key.group = self
 	return
 }
 
@@ -77,6 +78,10 @@ func GetGroup(groupID int) (group *DHGroup, err error) {
 }
 
 func (self *DHGroup) ComputeKey(pubkey *DHKey, privkey *DHKey) (key *DHKey, err error) {
+	if self.p == nil {
+		err = errors.New("DH: invalid group")
+		return
+	}
 	if pubkey.y == nil {
 		err = errors.New("DH: invalid public key")
 		return
@@ -89,13 +94,9 @@ func (self *DHGroup) ComputeKey(pubkey *DHKey, privkey *DHKey) (key *DHKey, err 
 		err = errors.New("DH: invalid private key")
 		return
 	}
-	if self.p == nil {
-		err = errors.New("DH: invalid group")
-		return
-	}
-
 	k := new(big.Int).Exp(pubkey.y, privkey.x, self.p)
 	key = new(DHKey)
 	key.y = k
+	key.group = self
 	return
 }
