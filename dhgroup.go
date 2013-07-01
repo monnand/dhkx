@@ -47,6 +47,10 @@ func (self *DHGroup) GeneratePrivateKey(randReader io.Reader) (key *DHKey, err e
 	return
 }
 
+// This function fetches a DHGroup by its ID as defined in either RFC 2409 or
+// RFC 3526.
+//
+// If you are unsure what to use use group ID 0 for a sensible default value
 func GetGroup(groupID int) (group *DHGroup, err error) {
 	if groupID <= 0 {
 		groupID = 14
@@ -73,6 +77,21 @@ func GetGroup(groupID int) (group *DHGroup, err error) {
 	default:
 		group = nil
 		err = errors.New("DH: Unknown group")
+	}
+	return
+}
+
+// This function enables users to create their own custom DHGroup.
+// Most users will not however want to use this function, and should prefer
+// the use of GetGroup which supplies DHGroups defined in RFCs 2409 and 3526
+//
+// WARNING! You should only use this if you know what you are doing. The
+// behavior of the group returned by this function is not defined if prime is
+// not in fact prime.
+func CreateGroup(prime, generator *big.Int) (group *DHGroup) {
+	group = &DHGroup{
+		g: generator,
+		p: prime,
 	}
 	return
 }
