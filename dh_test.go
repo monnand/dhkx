@@ -633,7 +633,8 @@ func TestNIST_30(tt *testing.T) {
 		tt.Errorf("Test Case 30 failed: %v", err)
 	}
 }
-// 
+
+//
 // // Test case 31 This should go through. Wierd.
 // func TestNIST_31(tt *testing.T) {
 // 	var t *dhTestCase

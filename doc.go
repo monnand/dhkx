@@ -88,4 +88,3 @@
 // It could be used as the secrete key for the later communication.
 //
 package dhkx
-

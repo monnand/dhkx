@@ -68,4 +68,3 @@ func copyWithLeftPad(dest, src []byte) {
 	}
 	copy(dest[numPaddingBytes:], src)
 }
-
