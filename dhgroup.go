@@ -29,6 +29,14 @@ type DHGroup struct {
 	g *big.Int
 }
 
+func (self *DHGroup) P() *big.Int {
+	return self.p
+}
+
+func (self *DHGroup) G() *big.Int {
+	return self.g
+}
+
 func (self *DHGroup) GeneratePrivateKey(randReader io.Reader) (key *DHKey, err error) {
 	if randReader == nil {
 		randReader = rand.Reader
