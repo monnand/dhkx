@@ -30,11 +30,15 @@ type DHGroup struct {
 }
 
 func (self *DHGroup) P() *big.Int {
-	return self.p
+	p := new(big.Int)
+	p.Set(self.p)
+	return p
 }
 
 func (self *DHGroup) G() *big.Int {
-	return self.g
+	g := new(big.Int)
+	g.Set(self.g)
+	return g
 }
 
 func (self *DHGroup) GeneratePrivateKey(randReader io.Reader) (key *DHKey, err error) {
