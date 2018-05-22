@@ -101,3 +101,21 @@ func TestCustomGroupKeyExchange(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 }
+
+func TestPIsNotMutable(t *testing.T) {
+	d, _ := GetGroup(0)
+	p := d.p.String()
+	d.P().Set(big.NewInt(1))
+	if p != d.p.String() {
+		t.Errorf("group's prime mutated externally, should be %s, was changed to %s", p, d.p.String())
+	}
+}
+
+func TestGIsNotMutable(t *testing.T) {
+	d, _ := GetGroup(0)
+	g := d.g.String()
+	d.G().Set(big.NewInt(0))
+	if g != d.g.String() {
+		t.Errorf("group's generator mutated externally, should be %s, was changed to %s", g, d.g.String())
+	}
+}
