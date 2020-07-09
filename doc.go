@@ -52,7 +52,7 @@
 // 	bobPubKey := NewPublicKey(b)
 //
 // 	// Compute the key
-// 	k, _ := group.ComputeKey(bobPubKey, priv)
+// 	k, _ := g.ComputeKey(bobPubKey, priv)
 //
 // 	// Get the key in the form of []byte
 // 	key := k.Bytes()
@@ -79,7 +79,7 @@
 // 	alicePubKey := NewPublicKey(a)
 //
 // 	// Compute the key
-// 	k, _ := group.ComputeKey(alicePubKey, priv)
+// 	k, _ := g.ComputeKey(alicePubKey, priv)
 //
 // 	// Get the key in the form of []byte
 // 	key := k.Bytes()
